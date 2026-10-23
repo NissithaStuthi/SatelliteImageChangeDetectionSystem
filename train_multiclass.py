@@ -29,7 +29,7 @@ class MultiClassDataset(Dataset):
         if os.path.exists(lbl_path):
             lbl = cv2.imread(lbl_path, cv2.IMREAD_GRAYSCALE)
             lbl = cv2.resize(lbl, (256, 256), interpolation=cv2.INTER_NEAREST)
-            lbl = np.where(lbl > 128, 1, 0).astype(np.int64)
+            lbl = lbl.astype(np.int64)
         else:
             lbl = np.zeros((256, 256), dtype=np.int64)
 
@@ -46,7 +46,7 @@ def train_module_12():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"--> Compute Device: {device}")
 
-    train_dataset = MultiClassDataset("data/dataset_split/train/before", "data/dataset_split/train/after", "data/dataset_split/train/label")
+    train_dataset = MultiClassDataset("data/dataset_split/train/before", "data/dataset_split/train/after", "data/dataset_split/train/masks")
     train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True)
     print(f"--> Loaded {len(train_dataset)} training samples across {len(train_loader)} batches.")
 

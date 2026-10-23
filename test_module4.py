@@ -26,7 +26,7 @@ for f in files:
     # 1. Change Vector Analysis (CVA)
     diff_map = compute_cva(img1, img2)
     # 2. Otsu Thresholding + Morphological filtering
-    pred_mask = apply_threshold_and_morphology(diff_map) // 255
+    pred_mask = (apply_threshold_and_morphology(diff_map) > 127).astype(np.uint8)
 
     # Metrics
     tp = np.logical_and(pred_mask == 1, gt_bin == 1).sum()
